@@ -1,0 +1,33 @@
+type Query {
+  getUser(psid: String!): User
+}
+
+type Mutation {
+  createUser(psid: String!): User
+  createSaltedgeCustomer(userId: ID!): User
+}
+
+type User {
+  id: ID!
+  psid: String!
+  saltedgeCustomer: SaltedgeCustomer
+}
+
+type SaltedgeCustomer {
+  id: ID!
+  customerId: String!
+  user: User!
+  logins: [SaltedgeLogin!]!
+}
+
+type SaltedgeLogin {
+  id: ID!
+  loginId: String!
+  accounts: [SaltedgeAccount!]!
+}
+
+type SaltedgeAccount {
+  id: ID!
+  accountId: String!
+  balance: Float
+}

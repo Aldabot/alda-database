@@ -1,0 +1,14 @@
+{
+  "name": "alda-server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Dirk Hornung<dirkhornung91@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "graphql-yoga": "^1.16.2",
+    "prisma-client-lib": "^1.18.0"
+  },
+  "devDependencies": {
+    "serverless-offline": "^3.27.0"
+  }
+}
