@@ -238,7 +238,12 @@ type SaltedgeCustomerConnection {
 input SaltedgeCustomerCreateInput {
   customerId: String!
   user: UserCreateOneWithoutSaltedgeCustomerInput!
-  logins: SaltedgeLoginCreateManyInput
+  logins: SaltedgeLoginCreateManyWithoutSaltedgeCustomerInput
+}
+
+input SaltedgeCustomerCreateOneWithoutLoginsInput {
+  create: SaltedgeCustomerCreateWithoutLoginsInput
+  connect: SaltedgeCustomerWhereUniqueInput
 }
 
 input SaltedgeCustomerCreateOneWithoutUserInput {
@@ -246,9 +251,14 @@ input SaltedgeCustomerCreateOneWithoutUserInput {
   connect: SaltedgeCustomerWhereUniqueInput
 }
 
+input SaltedgeCustomerCreateWithoutLoginsInput {
+  customerId: String!
+  user: UserCreateOneWithoutSaltedgeCustomerInput!
+}
+
 input SaltedgeCustomerCreateWithoutUserInput {
   customerId: String!
-  logins: SaltedgeLoginCreateManyInput
+  logins: SaltedgeLoginCreateManyWithoutSaltedgeCustomerInput
 }
 
 type SaltedgeCustomerEdge {
@@ -293,7 +303,14 @@ input SaltedgeCustomerSubscriptionWhereInput {
 input SaltedgeCustomerUpdateInput {
   customerId: String
   user: UserUpdateOneRequiredWithoutSaltedgeCustomerInput
-  logins: SaltedgeLoginUpdateManyInput
+  logins: SaltedgeLoginUpdateManyWithoutSaltedgeCustomerInput
+}
+
+input SaltedgeCustomerUpdateOneRequiredWithoutLoginsInput {
+  create: SaltedgeCustomerCreateWithoutLoginsInput
+  update: SaltedgeCustomerUpdateWithoutLoginsDataInput
+  upsert: SaltedgeCustomerUpsertWithoutLoginsInput
+  connect: SaltedgeCustomerWhereUniqueInput
 }
 
 input SaltedgeCustomerUpdateOneWithoutUserInput {
@@ -305,9 +322,19 @@ input SaltedgeCustomerUpdateOneWithoutUserInput {
   connect: SaltedgeCustomerWhereUniqueInput
 }
 
+input SaltedgeCustomerUpdateWithoutLoginsDataInput {
+  customerId: String
+  user: UserUpdateOneRequiredWithoutSaltedgeCustomerInput
+}
+
 input SaltedgeCustomerUpdateWithoutUserDataInput {
   customerId: String
-  logins: SaltedgeLoginUpdateManyInput
+  logins: SaltedgeLoginUpdateManyWithoutSaltedgeCustomerInput
+}
+
+input SaltedgeCustomerUpsertWithoutLoginsInput {
+  update: SaltedgeCustomerUpdateWithoutLoginsDataInput!
+  create: SaltedgeCustomerCreateWithoutLoginsInput!
 }
 
 input SaltedgeCustomerUpsertWithoutUserInput {
@@ -355,11 +382,14 @@ input SaltedgeCustomerWhereInput {
 
 input SaltedgeCustomerWhereUniqueInput {
   id: ID
+  customerId: String
 }
 
 type SaltedgeLogin {
   id: ID!
   loginId: String!
+  saltedgeCustomer: SaltedgeCustomer!
+  provider: String!
   accounts(where: SaltedgeAccountWhereInput, orderBy: SaltedgeAccountOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [SaltedgeAccount!]
 }
 
@@ -371,12 +401,20 @@ type SaltedgeLoginConnection {
 
 input SaltedgeLoginCreateInput {
   loginId: String!
+  saltedgeCustomer: SaltedgeCustomerCreateOneWithoutLoginsInput!
+  provider: String!
   accounts: SaltedgeAccountCreateManyInput
 }
 
-input SaltedgeLoginCreateManyInput {
-  create: [SaltedgeLoginCreateInput!]
+input SaltedgeLoginCreateManyWithoutSaltedgeCustomerInput {
+  create: [SaltedgeLoginCreateWithoutSaltedgeCustomerInput!]
   connect: [SaltedgeLoginWhereUniqueInput!]
+}
+
+input SaltedgeLoginCreateWithoutSaltedgeCustomerInput {
+  loginId: String!
+  provider: String!
+  accounts: SaltedgeAccountCreateManyInput
 }
 
 type SaltedgeLoginEdge {
@@ -389,6 +427,8 @@ enum SaltedgeLoginOrderByInput {
   id_DESC
   loginId_ASC
   loginId_DESC
+  provider_ASC
+  provider_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -398,6 +438,7 @@ enum SaltedgeLoginOrderByInput {
 type SaltedgeLoginPreviousValues {
   id: ID!
   loginId: String!
+  provider: String!
 }
 
 type SaltedgeLoginSubscriptionPayload {
@@ -418,34 +459,37 @@ input SaltedgeLoginSubscriptionWhereInput {
   NOT: [SaltedgeLoginSubscriptionWhereInput!]
 }
 
-input SaltedgeLoginUpdateDataInput {
-  loginId: String
-  accounts: SaltedgeAccountUpdateManyInput
-}
-
 input SaltedgeLoginUpdateInput {
   loginId: String
+  saltedgeCustomer: SaltedgeCustomerUpdateOneRequiredWithoutLoginsInput
+  provider: String
   accounts: SaltedgeAccountUpdateManyInput
 }
 
-input SaltedgeLoginUpdateManyInput {
-  create: [SaltedgeLoginCreateInput!]
-  update: [SaltedgeLoginUpdateWithWhereUniqueNestedInput!]
-  upsert: [SaltedgeLoginUpsertWithWhereUniqueNestedInput!]
+input SaltedgeLoginUpdateManyWithoutSaltedgeCustomerInput {
+  create: [SaltedgeLoginCreateWithoutSaltedgeCustomerInput!]
   delete: [SaltedgeLoginWhereUniqueInput!]
   connect: [SaltedgeLoginWhereUniqueInput!]
   disconnect: [SaltedgeLoginWhereUniqueInput!]
+  update: [SaltedgeLoginUpdateWithWhereUniqueWithoutSaltedgeCustomerInput!]
+  upsert: [SaltedgeLoginUpsertWithWhereUniqueWithoutSaltedgeCustomerInput!]
 }
 
-input SaltedgeLoginUpdateWithWhereUniqueNestedInput {
-  where: SaltedgeLoginWhereUniqueInput!
-  data: SaltedgeLoginUpdateDataInput!
+input SaltedgeLoginUpdateWithoutSaltedgeCustomerDataInput {
+  loginId: String
+  provider: String
+  accounts: SaltedgeAccountUpdateManyInput
 }
 
-input SaltedgeLoginUpsertWithWhereUniqueNestedInput {
+input SaltedgeLoginUpdateWithWhereUniqueWithoutSaltedgeCustomerInput {
   where: SaltedgeLoginWhereUniqueInput!
-  update: SaltedgeLoginUpdateDataInput!
-  create: SaltedgeLoginCreateInput!
+  data: SaltedgeLoginUpdateWithoutSaltedgeCustomerDataInput!
+}
+
+input SaltedgeLoginUpsertWithWhereUniqueWithoutSaltedgeCustomerInput {
+  where: SaltedgeLoginWhereUniqueInput!
+  update: SaltedgeLoginUpdateWithoutSaltedgeCustomerDataInput!
+  create: SaltedgeLoginCreateWithoutSaltedgeCustomerInput!
 }
 
 input SaltedgeLoginWhereInput {
@@ -477,6 +521,21 @@ input SaltedgeLoginWhereInput {
   loginId_not_starts_with: String
   loginId_ends_with: String
   loginId_not_ends_with: String
+  saltedgeCustomer: SaltedgeCustomerWhereInput
+  provider: String
+  provider_not: String
+  provider_in: [String!]
+  provider_not_in: [String!]
+  provider_lt: String
+  provider_lte: String
+  provider_gt: String
+  provider_gte: String
+  provider_contains: String
+  provider_not_contains: String
+  provider_starts_with: String
+  provider_not_starts_with: String
+  provider_ends_with: String
+  provider_not_ends_with: String
   accounts_every: SaltedgeAccountWhereInput
   accounts_some: SaltedgeAccountWhereInput
   accounts_none: SaltedgeAccountWhereInput

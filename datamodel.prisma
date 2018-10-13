@@ -6,7 +6,7 @@ type User {
 
 type SaltedgeCustomer {
   id: ID! @unique
-  customerId: String!
+  customerId: String! @unique
   user: User!
   logins: [SaltedgeLogin!]!
 }
@@ -14,6 +14,8 @@ type SaltedgeCustomer {
 type SaltedgeLogin {
   id: ID! @unique
   loginId: String! @unique
+  saltedgeCustomer: SaltedgeCustomer!
+  provider: String!
   accounts: [SaltedgeAccount!]!
 }
 

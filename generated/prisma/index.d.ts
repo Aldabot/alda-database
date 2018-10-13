@@ -274,6 +274,8 @@ export type SaltedgeLoginOrderByInput =
   | "id_DESC"
   | "loginId_ASC"
   | "loginId_DESC"
+  | "provider_ASC"
+  | "provider_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
@@ -301,10 +303,11 @@ export type UserOrderByInput =
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
-export interface SaltedgeCustomerCreateInput {
-  customerId: String;
-  user: UserCreateOneWithoutSaltedgeCustomerInput;
-  logins?: SaltedgeLoginCreateManyInput;
+export interface SaltedgeLoginCreateManyWithoutSaltedgeCustomerInput {
+  create?:
+    | SaltedgeLoginCreateWithoutSaltedgeCustomerInput[]
+    | SaltedgeLoginCreateWithoutSaltedgeCustomerInput;
+  connect?: SaltedgeLoginWhereUniqueInput[] | SaltedgeLoginWhereUniqueInput;
 }
 
 export type SaltedgeAccountWhereUniqueInput = AtLeastOne<{
@@ -312,34 +315,43 @@ export type SaltedgeAccountWhereUniqueInput = AtLeastOne<{
   accountId?: String;
 }>;
 
-export interface SaltedgeLoginUpsertWithWhereUniqueNestedInput {
-  where: SaltedgeLoginWhereUniqueInput;
-  update: SaltedgeLoginUpdateDataInput;
-  create: SaltedgeLoginCreateInput;
+export interface SaltedgeLoginUpdateInput {
+  loginId?: String;
+  saltedgeCustomer?: SaltedgeCustomerUpdateOneRequiredWithoutLoginsInput;
+  provider?: String;
+  accounts?: SaltedgeAccountUpdateManyInput;
 }
 
-export interface UserUpdateOneRequiredWithoutSaltedgeCustomerInput {
-  create?: UserCreateWithoutSaltedgeCustomerInput;
-  update?: UserUpdateWithoutSaltedgeCustomerDataInput;
-  upsert?: UserUpsertWithoutSaltedgeCustomerInput;
-  connect?: UserWhereUniqueInput;
+export interface SaltedgeAccountUpdateManyInput {
+  create?: SaltedgeAccountCreateInput[] | SaltedgeAccountCreateInput;
+  update?:
+    | SaltedgeAccountUpdateWithWhereUniqueNestedInput[]
+    | SaltedgeAccountUpdateWithWhereUniqueNestedInput;
+  upsert?:
+    | SaltedgeAccountUpsertWithWhereUniqueNestedInput[]
+    | SaltedgeAccountUpsertWithWhereUniqueNestedInput;
+  delete?: SaltedgeAccountWhereUniqueInput[] | SaltedgeAccountWhereUniqueInput;
+  connect?: SaltedgeAccountWhereUniqueInput[] | SaltedgeAccountWhereUniqueInput;
+  disconnect?:
+    | SaltedgeAccountWhereUniqueInput[]
+    | SaltedgeAccountWhereUniqueInput;
 }
 
-export interface SaltedgeAccountUpsertWithWhereUniqueNestedInput {
-  where: SaltedgeAccountWhereUniqueInput;
-  update: SaltedgeAccountUpdateDataInput;
-  create: SaltedgeAccountCreateInput;
+export interface SaltedgeCustomerCreateWithoutLoginsInput {
+  customerId: String;
+  user: UserCreateOneWithoutSaltedgeCustomerInput;
 }
 
-export interface SaltedgeLoginCreateManyInput {
-  create?: SaltedgeLoginCreateInput[] | SaltedgeLoginCreateInput;
-  connect?: SaltedgeLoginWhereUniqueInput[] | SaltedgeLoginWhereUniqueInput;
+export interface SaltedgeCustomerUpdateInput {
+  customerId?: String;
+  user?: UserUpdateOneRequiredWithoutSaltedgeCustomerInput;
+  logins?: SaltedgeLoginUpdateManyWithoutSaltedgeCustomerInput;
 }
 
-export type UserWhereUniqueInput = AtLeastOne<{
-  id: ID_Input;
-  psid?: String;
-}>;
+export interface SaltedgeCustomerCreateOneWithoutLoginsInput {
+  create?: SaltedgeCustomerCreateWithoutLoginsInput;
+  connect?: SaltedgeCustomerWhereUniqueInput;
+}
 
 export interface SaltedgeLoginSubscriptionWhereInput {
   mutation_in?: MutationType[] | MutationType;
@@ -358,9 +370,11 @@ export interface SaltedgeLoginSubscriptionWhereInput {
     | SaltedgeLoginSubscriptionWhereInput;
 }
 
-export interface SaltedgeAccountUpdateDataInput {
-  accountId?: String;
-  balance?: Float;
+export interface SaltedgeLoginCreateInput {
+  loginId: String;
+  saltedgeCustomer: SaltedgeCustomerCreateOneWithoutLoginsInput;
+  provider: String;
+  accounts?: SaltedgeAccountCreateManyInput;
 }
 
 export interface SaltedgeAccountSubscriptionWhereInput {
@@ -380,29 +394,9 @@ export interface SaltedgeAccountSubscriptionWhereInput {
     | SaltedgeAccountSubscriptionWhereInput;
 }
 
-export interface SaltedgeAccountUpdateWithWhereUniqueNestedInput {
-  where: SaltedgeAccountWhereUniqueInput;
-  data: SaltedgeAccountUpdateDataInput;
-}
-
 export interface SaltedgeCustomerUpsertWithoutUserInput {
   update: SaltedgeCustomerUpdateWithoutUserDataInput;
   create: SaltedgeCustomerCreateWithoutUserInput;
-}
-
-export interface SaltedgeAccountUpdateManyInput {
-  create?: SaltedgeAccountCreateInput[] | SaltedgeAccountCreateInput;
-  update?:
-    | SaltedgeAccountUpdateWithWhereUniqueNestedInput[]
-    | SaltedgeAccountUpdateWithWhereUniqueNestedInput;
-  upsert?:
-    | SaltedgeAccountUpsertWithWhereUniqueNestedInput[]
-    | SaltedgeAccountUpsertWithWhereUniqueNestedInput;
-  delete?: SaltedgeAccountWhereUniqueInput[] | SaltedgeAccountWhereUniqueInput;
-  connect?: SaltedgeAccountWhereUniqueInput[] | SaltedgeAccountWhereUniqueInput;
-  disconnect?:
-    | SaltedgeAccountWhereUniqueInput[]
-    | SaltedgeAccountWhereUniqueInput;
 }
 
 export interface SaltedgeLoginWhereInput {
@@ -434,6 +428,21 @@ export interface SaltedgeLoginWhereInput {
   loginId_not_starts_with?: String;
   loginId_ends_with?: String;
   loginId_not_ends_with?: String;
+  saltedgeCustomer?: SaltedgeCustomerWhereInput;
+  provider?: String;
+  provider_not?: String;
+  provider_in?: String[] | String;
+  provider_not_in?: String[] | String;
+  provider_lt?: String;
+  provider_lte?: String;
+  provider_gt?: String;
+  provider_gte?: String;
+  provider_contains?: String;
+  provider_not_contains?: String;
+  provider_starts_with?: String;
+  provider_not_starts_with?: String;
+  provider_ends_with?: String;
+  provider_not_ends_with?: String;
   accounts_every?: SaltedgeAccountWhereInput;
   accounts_some?: SaltedgeAccountWhereInput;
   accounts_none?: SaltedgeAccountWhereInput;
@@ -442,18 +451,9 @@ export interface SaltedgeLoginWhereInput {
   NOT?: SaltedgeLoginWhereInput[] | SaltedgeLoginWhereInput;
 }
 
-export interface SaltedgeLoginUpdateDataInput {
-  loginId?: String;
-  accounts?: SaltedgeAccountUpdateManyInput;
-}
-
-export interface SaltedgeCustomerUpdateOneWithoutUserInput {
-  create?: SaltedgeCustomerCreateWithoutUserInput;
-  update?: SaltedgeCustomerUpdateWithoutUserDataInput;
-  upsert?: SaltedgeCustomerUpsertWithoutUserInput;
-  delete?: Boolean;
-  disconnect?: Boolean;
-  connect?: SaltedgeCustomerWhereUniqueInput;
+export interface SaltedgeAccountCreateInput {
+  accountId: String;
+  balance?: Float;
 }
 
 export interface UserWhereInput {
@@ -491,14 +491,35 @@ export interface UserWhereInput {
   NOT?: UserWhereInput[] | UserWhereInput;
 }
 
-export interface SaltedgeCustomerCreateWithoutUserInput {
-  customerId: String;
-  logins?: SaltedgeLoginCreateManyInput;
+export interface SaltedgeAccountUpdateInput {
+  accountId?: String;
+  balance?: Float;
 }
 
-export interface SaltedgeAccountCreateInput {
-  accountId: String;
-  balance?: Float;
+export interface SaltedgeCustomerUpdateOneWithoutUserInput {
+  create?: SaltedgeCustomerCreateWithoutUserInput;
+  update?: SaltedgeCustomerUpdateWithoutUserDataInput;
+  upsert?: SaltedgeCustomerUpsertWithoutUserInput;
+  delete?: Boolean;
+  disconnect?: Boolean;
+  connect?: SaltedgeCustomerWhereUniqueInput;
+}
+
+export interface SaltedgeLoginUpsertWithWhereUniqueWithoutSaltedgeCustomerInput {
+  where: SaltedgeLoginWhereUniqueInput;
+  update: SaltedgeLoginUpdateWithoutSaltedgeCustomerDataInput;
+  create: SaltedgeLoginCreateWithoutSaltedgeCustomerInput;
+}
+
+export interface SaltedgeCustomerCreateWithoutUserInput {
+  customerId: String;
+  logins?: SaltedgeLoginCreateManyWithoutSaltedgeCustomerInput;
+}
+
+export interface SaltedgeAccountUpsertWithWhereUniqueNestedInput {
+  where: SaltedgeAccountWhereUniqueInput;
+  update: SaltedgeAccountUpdateDataInput;
+  create: SaltedgeAccountCreateInput;
 }
 
 export interface UserCreateInput {
@@ -506,59 +527,58 @@ export interface UserCreateInput {
   saltedgeCustomer?: SaltedgeCustomerCreateOneWithoutUserInput;
 }
 
-export interface SaltedgeAccountUpdateInput {
-  accountId?: String;
-  balance?: Float;
+export interface SaltedgeCustomerCreateInput {
+  customerId: String;
+  user: UserCreateOneWithoutSaltedgeCustomerInput;
+  logins?: SaltedgeLoginCreateManyWithoutSaltedgeCustomerInput;
 }
 
-export interface SaltedgeLoginUpdateInput {
-  loginId?: String;
-  accounts?: SaltedgeAccountUpdateManyInput;
+export interface SaltedgeCustomerUpsertWithoutLoginsInput {
+  update: SaltedgeCustomerUpdateWithoutLoginsDataInput;
+  create: SaltedgeCustomerCreateWithoutLoginsInput;
 }
 
-export interface SaltedgeLoginUpdateWithWhereUniqueNestedInput {
-  where: SaltedgeLoginWhereUniqueInput;
-  data: SaltedgeLoginUpdateDataInput;
+export interface UserCreateOneWithoutSaltedgeCustomerInput {
+  create?: UserCreateWithoutSaltedgeCustomerInput;
+  connect?: UserWhereUniqueInput;
 }
 
-export interface SaltedgeCustomerSubscriptionWhereInput {
+export interface SaltedgeCustomerUpdateOneRequiredWithoutLoginsInput {
+  create?: SaltedgeCustomerCreateWithoutLoginsInput;
+  update?: SaltedgeCustomerUpdateWithoutLoginsDataInput;
+  upsert?: SaltedgeCustomerUpsertWithoutLoginsInput;
+  connect?: SaltedgeCustomerWhereUniqueInput;
+}
+
+export interface UserCreateWithoutSaltedgeCustomerInput {
+  psid: String;
+}
+
+export interface UserSubscriptionWhereInput {
   mutation_in?: MutationType[] | MutationType;
   updatedFields_contains?: String;
   updatedFields_contains_every?: String[] | String;
   updatedFields_contains_some?: String[] | String;
-  node?: SaltedgeCustomerWhereInput;
-  AND?:
-    | SaltedgeCustomerSubscriptionWhereInput[]
-    | SaltedgeCustomerSubscriptionWhereInput;
-  OR?:
-    | SaltedgeCustomerSubscriptionWhereInput[]
-    | SaltedgeCustomerSubscriptionWhereInput;
-  NOT?:
-    | SaltedgeCustomerSubscriptionWhereInput[]
-    | SaltedgeCustomerSubscriptionWhereInput;
+  node?: UserWhereInput;
+  AND?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
+  OR?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
+  NOT?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
 }
 
-export interface SaltedgeLoginUpdateManyInput {
-  create?: SaltedgeLoginCreateInput[] | SaltedgeLoginCreateInput;
-  update?:
-    | SaltedgeLoginUpdateWithWhereUniqueNestedInput[]
-    | SaltedgeLoginUpdateWithWhereUniqueNestedInput;
-  upsert?:
-    | SaltedgeLoginUpsertWithWhereUniqueNestedInput[]
-    | SaltedgeLoginUpsertWithWhereUniqueNestedInput;
-  delete?: SaltedgeLoginWhereUniqueInput[] | SaltedgeLoginWhereUniqueInput;
-  connect?: SaltedgeLoginWhereUniqueInput[] | SaltedgeLoginWhereUniqueInput;
-  disconnect?: SaltedgeLoginWhereUniqueInput[] | SaltedgeLoginWhereUniqueInput;
+export interface SaltedgeAccountUpdateDataInput {
+  accountId?: String;
+  balance?: Float;
 }
 
-export interface SaltedgeCustomerUpdateWithoutUserDataInput {
+export type SaltedgeCustomerWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
   customerId?: String;
-  logins?: SaltedgeLoginUpdateManyInput;
-}
+}>;
 
-export interface UserUpsertWithoutSaltedgeCustomerInput {
-  update: UserUpdateWithoutSaltedgeCustomerDataInput;
-  create: UserCreateWithoutSaltedgeCustomerInput;
+export interface SaltedgeLoginCreateWithoutSaltedgeCustomerInput {
+  loginId: String;
+  provider: String;
+  accounts?: SaltedgeAccountCreateManyInput;
 }
 
 export interface SaltedgeCustomerWhereInput {
@@ -599,63 +619,76 @@ export interface SaltedgeCustomerWhereInput {
   NOT?: SaltedgeCustomerWhereInput[] | SaltedgeCustomerWhereInput;
 }
 
-export interface UserCreateOneWithoutSaltedgeCustomerInput {
-  create?: UserCreateWithoutSaltedgeCustomerInput;
-  connect?: UserWhereUniqueInput;
-}
-
-export interface SaltedgeCustomerCreateOneWithoutUserInput {
-  create?: SaltedgeCustomerCreateWithoutUserInput;
-  connect?: SaltedgeCustomerWhereUniqueInput;
-}
-
-export interface UserCreateWithoutSaltedgeCustomerInput {
-  psid: String;
-}
-
-export interface UserSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: UserWhereInput;
-  AND?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
-  OR?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
-  NOT?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
-}
-
-export interface SaltedgeCustomerUpdateInput {
-  customerId?: String;
-  user?: UserUpdateOneRequiredWithoutSaltedgeCustomerInput;
-  logins?: SaltedgeLoginUpdateManyInput;
-}
-
 export interface SaltedgeAccountCreateManyInput {
   create?: SaltedgeAccountCreateInput[] | SaltedgeAccountCreateInput;
   connect?: SaltedgeAccountWhereUniqueInput[] | SaltedgeAccountWhereUniqueInput;
 }
 
-export interface SaltedgeLoginCreateInput {
-  loginId: String;
-  accounts?: SaltedgeAccountCreateManyInput;
-}
-
-export interface UserUpdateWithoutSaltedgeCustomerDataInput {
+export interface UserUpdateInput {
   psid?: String;
+  saltedgeCustomer?: SaltedgeCustomerUpdateOneWithoutUserInput;
 }
 
-export type SaltedgeCustomerWhereUniqueInput = AtLeastOne<{
-  id: ID_Input;
-}>;
+export interface SaltedgeAccountUpdateWithWhereUniqueNestedInput {
+  where: SaltedgeAccountWhereUniqueInput;
+  data: SaltedgeAccountUpdateDataInput;
+}
 
 export type SaltedgeLoginWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
   loginId?: String;
 }>;
 
-export interface UserUpdateInput {
+export interface UserUpdateOneRequiredWithoutSaltedgeCustomerInput {
+  create?: UserCreateWithoutSaltedgeCustomerInput;
+  update?: UserUpdateWithoutSaltedgeCustomerDataInput;
+  upsert?: UserUpsertWithoutSaltedgeCustomerInput;
+  connect?: UserWhereUniqueInput;
+}
+
+export type UserWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
   psid?: String;
-  saltedgeCustomer?: SaltedgeCustomerUpdateOneWithoutUserInput;
+}>;
+
+export interface UserUpdateWithoutSaltedgeCustomerDataInput {
+  psid?: String;
+}
+
+export interface SaltedgeCustomerUpdateWithoutUserDataInput {
+  customerId?: String;
+  logins?: SaltedgeLoginUpdateManyWithoutSaltedgeCustomerInput;
+}
+
+export interface SaltedgeLoginUpdateWithoutSaltedgeCustomerDataInput {
+  loginId?: String;
+  provider?: String;
+  accounts?: SaltedgeAccountUpdateManyInput;
+}
+
+export interface SaltedgeLoginUpdateWithWhereUniqueWithoutSaltedgeCustomerInput {
+  where: SaltedgeLoginWhereUniqueInput;
+  data: SaltedgeLoginUpdateWithoutSaltedgeCustomerDataInput;
+}
+
+export interface SaltedgeLoginUpdateManyWithoutSaltedgeCustomerInput {
+  create?:
+    | SaltedgeLoginCreateWithoutSaltedgeCustomerInput[]
+    | SaltedgeLoginCreateWithoutSaltedgeCustomerInput;
+  delete?: SaltedgeLoginWhereUniqueInput[] | SaltedgeLoginWhereUniqueInput;
+  connect?: SaltedgeLoginWhereUniqueInput[] | SaltedgeLoginWhereUniqueInput;
+  disconnect?: SaltedgeLoginWhereUniqueInput[] | SaltedgeLoginWhereUniqueInput;
+  update?:
+    | SaltedgeLoginUpdateWithWhereUniqueWithoutSaltedgeCustomerInput[]
+    | SaltedgeLoginUpdateWithWhereUniqueWithoutSaltedgeCustomerInput;
+  upsert?:
+    | SaltedgeLoginUpsertWithWhereUniqueWithoutSaltedgeCustomerInput[]
+    | SaltedgeLoginUpsertWithWhereUniqueWithoutSaltedgeCustomerInput;
+}
+
+export interface UserUpsertWithoutSaltedgeCustomerInput {
+  update: UserUpdateWithoutSaltedgeCustomerDataInput;
+  create: UserCreateWithoutSaltedgeCustomerInput;
 }
 
 export interface SaltedgeAccountWhereInput {
@@ -700,6 +733,33 @@ export interface SaltedgeAccountWhereInput {
   NOT?: SaltedgeAccountWhereInput[] | SaltedgeAccountWhereInput;
 }
 
+export interface SaltedgeCustomerSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: SaltedgeCustomerWhereInput;
+  AND?:
+    | SaltedgeCustomerSubscriptionWhereInput[]
+    | SaltedgeCustomerSubscriptionWhereInput;
+  OR?:
+    | SaltedgeCustomerSubscriptionWhereInput[]
+    | SaltedgeCustomerSubscriptionWhereInput;
+  NOT?:
+    | SaltedgeCustomerSubscriptionWhereInput[]
+    | SaltedgeCustomerSubscriptionWhereInput;
+}
+
+export interface SaltedgeCustomerUpdateWithoutLoginsDataInput {
+  customerId?: String;
+  user?: UserUpdateOneRequiredWithoutSaltedgeCustomerInput;
+}
+
+export interface SaltedgeCustomerCreateOneWithoutUserInput {
+  create?: SaltedgeCustomerCreateWithoutUserInput;
+  connect?: SaltedgeCustomerWhereUniqueInput;
+}
+
 export interface NodeNode {
   id: ID_Output;
 }
@@ -726,6 +786,7 @@ export interface UserPreviousValuesSubscription
 export interface SaltedgeLoginNode {
   id: ID_Output;
   loginId: String;
+  provider: String;
 }
 
 export interface SaltedgeLogin
@@ -733,6 +794,8 @@ export interface SaltedgeLogin
     Fragmentable {
   id: () => Promise<ID_Output>;
   loginId: () => Promise<String>;
+  saltedgeCustomer: <T = SaltedgeCustomer>() => T;
+  provider: () => Promise<String>;
   accounts: <T = FragmentableArray<SaltedgeAccountNode>>(
     args?: {
       where?: SaltedgeAccountWhereInput;
@@ -751,6 +814,8 @@ export interface SaltedgeLoginSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   loginId: () => Promise<AsyncIterator<String>>;
+  saltedgeCustomer: <T = SaltedgeCustomerSubscription>() => T;
+  provider: () => Promise<AsyncIterator<String>>;
   accounts: <T = Promise<AsyncIterator<SaltedgeAccountSubscription>>>(
     args?: {
       where?: SaltedgeAccountWhereInput;
@@ -1002,6 +1067,7 @@ export interface SaltedgeLoginEdgeSubscription
 export interface SaltedgeLoginPreviousValuesNode {
   id: ID_Output;
   loginId: String;
+  provider: String;
 }
 
 export interface SaltedgeLoginPreviousValues
@@ -1009,6 +1075,7 @@ export interface SaltedgeLoginPreviousValues
     Fragmentable {
   id: () => Promise<ID_Output>;
   loginId: () => Promise<String>;
+  provider: () => Promise<String>;
 }
 
 export interface SaltedgeLoginPreviousValuesSubscription
@@ -1016,6 +1083,7 @@ export interface SaltedgeLoginPreviousValuesSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   loginId: () => Promise<AsyncIterator<String>>;
+  provider: () => Promise<AsyncIterator<String>>;
 }
 
 export interface AggregateSaltedgeCustomerNode {
