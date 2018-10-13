@@ -4,7 +4,7 @@ type Query {
 
 type Mutation {
   createUser(psid: String!): User
-  createSaltedgeCustomer(userId: ID!): User
+  createSaltedgeCustomer(psid: ID!): User
 }
 
 type User {

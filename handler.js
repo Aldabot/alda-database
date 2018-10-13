@@ -1,6 +1,6 @@
 const { prisma } = require('./generated/prisma')
 const { GraphQLServerLambda } = require('graphql-yoga')
-
+const { createCustomer } = require('alda-saltedge')
 
 const resolvers = {
   Query: {
@@ -9,12 +9,18 @@ const resolvers = {
     },
   },
   Mutation: {
-    createUser(root, args, context) {
-      return context.prisma.createUser({ psid: args.psid })
+    createUser(root, args, ctx) {
+      return ctx.prisma.createUser({ psid: args.psid })
     },
     createSaltedgeCustomer(root, args, ctx) {
-      return ctx.prisma.createSaltedgeCustomer({
-        user: { connect: { id: "cjn7d5zk20gea0710wudvg4bk" }}
+      return ctx.prisma.user({ psid: args.psid })
+        .then(({ id }) => {
+           return createCustomer(id)
+        }).then(({ id }) => {
+          return ctx.prisma.createSaltedgeCustomer({
+            customerId: id,
+            user: { connect: { psid: args.psid }}
+          })
       })
     }
   },
