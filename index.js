@@ -1,12 +1,17 @@
 const { prisma } = require('./generated/prisma')
 const { GraphQLServerLambda } = require('graphql-yoga')
-const { createCustomer, createLogin } = require('alda-saltedge')
+const { createCustomer, createLogin, getLoginStatus } = require('alda-saltedge')
+const SDL = require('./schema.js')
 
 const resolvers = {
   Query: {
     getUser(root, args, ctx) {
       return ctx.prisma.user({ psid: args.psid })
     },
+    getSaltedgeLoginStatus: async (root, args, ctx) => {
+      const status = await getLoginStatus(args.loginId)
+      return status
+    }
   },
   Mutation: {
     createUser(root, args, ctx) {
@@ -43,12 +48,12 @@ const resolvers = {
 }
 
 const lambda = new GraphQLServerLambda({
-  typeDefs: './schema.graphql',
+  typeDefs: SDL,
   resolvers,
   context: {
     prisma
   }
 })
 
-exports.server = lambda.graphqlHandler
-exports.playground = lambda.playgroundHandler
+exports.graphqlServer = lambda.graphqlHandler
+exports.graphqlPlayground = lambda.playgroundHandler

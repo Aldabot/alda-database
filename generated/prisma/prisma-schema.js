@@ -24,25 +24,25 @@ scalar Long
 type Mutation {
   createSaltedgeAccount(data: SaltedgeAccountCreateInput!): SaltedgeAccount!
   updateSaltedgeAccount(data: SaltedgeAccountUpdateInput!, where: SaltedgeAccountWhereUniqueInput!): SaltedgeAccount
-  updateManySaltedgeAccounts(data: SaltedgeAccountUpdateInput!, where: SaltedgeAccountWhereInput): BatchPayload!
+  updateManySaltedgeAccounts(data: SaltedgeAccountUpdateManyMutationInput!, where: SaltedgeAccountWhereInput): BatchPayload!
   upsertSaltedgeAccount(where: SaltedgeAccountWhereUniqueInput!, create: SaltedgeAccountCreateInput!, update: SaltedgeAccountUpdateInput!): SaltedgeAccount!
   deleteSaltedgeAccount(where: SaltedgeAccountWhereUniqueInput!): SaltedgeAccount
   deleteManySaltedgeAccounts(where: SaltedgeAccountWhereInput): BatchPayload!
   createSaltedgeCustomer(data: SaltedgeCustomerCreateInput!): SaltedgeCustomer!
   updateSaltedgeCustomer(data: SaltedgeCustomerUpdateInput!, where: SaltedgeCustomerWhereUniqueInput!): SaltedgeCustomer
-  updateManySaltedgeCustomers(data: SaltedgeCustomerUpdateInput!, where: SaltedgeCustomerWhereInput): BatchPayload!
+  updateManySaltedgeCustomers(data: SaltedgeCustomerUpdateManyMutationInput!, where: SaltedgeCustomerWhereInput): BatchPayload!
   upsertSaltedgeCustomer(where: SaltedgeCustomerWhereUniqueInput!, create: SaltedgeCustomerCreateInput!, update: SaltedgeCustomerUpdateInput!): SaltedgeCustomer!
   deleteSaltedgeCustomer(where: SaltedgeCustomerWhereUniqueInput!): SaltedgeCustomer
   deleteManySaltedgeCustomers(where: SaltedgeCustomerWhereInput): BatchPayload!
   createSaltedgeLogin(data: SaltedgeLoginCreateInput!): SaltedgeLogin!
   updateSaltedgeLogin(data: SaltedgeLoginUpdateInput!, where: SaltedgeLoginWhereUniqueInput!): SaltedgeLogin
-  updateManySaltedgeLogins(data: SaltedgeLoginUpdateInput!, where: SaltedgeLoginWhereInput): BatchPayload!
+  updateManySaltedgeLogins(data: SaltedgeLoginUpdateManyMutationInput!, where: SaltedgeLoginWhereInput): BatchPayload!
   upsertSaltedgeLogin(where: SaltedgeLoginWhereUniqueInput!, create: SaltedgeLoginCreateInput!, update: SaltedgeLoginUpdateInput!): SaltedgeLogin!
   deleteSaltedgeLogin(where: SaltedgeLoginWhereUniqueInput!): SaltedgeLogin
   deleteManySaltedgeLogins(where: SaltedgeLoginWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
-  updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
+  updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   deleteUser(where: UserWhereUniqueInput!): User
   deleteManyUsers(where: UserWhereInput): BatchPayload!
@@ -127,6 +127,48 @@ type SaltedgeAccountPreviousValues {
   balance: Float
 }
 
+input SaltedgeAccountScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  accountId: String
+  accountId_not: String
+  accountId_in: [String!]
+  accountId_not_in: [String!]
+  accountId_lt: String
+  accountId_lte: String
+  accountId_gt: String
+  accountId_gte: String
+  accountId_contains: String
+  accountId_not_contains: String
+  accountId_starts_with: String
+  accountId_not_starts_with: String
+  accountId_ends_with: String
+  accountId_not_ends_with: String
+  balance: Float
+  balance_not: Float
+  balance_in: [Float!]
+  balance_not_in: [Float!]
+  balance_lt: Float
+  balance_lte: Float
+  balance_gt: Float
+  balance_gte: Float
+  AND: [SaltedgeAccountScalarWhereInput!]
+  OR: [SaltedgeAccountScalarWhereInput!]
+  NOT: [SaltedgeAccountScalarWhereInput!]
+}
+
 type SaltedgeAccountSubscriptionPayload {
   mutation: MutationType!
   node: SaltedgeAccount
@@ -155,13 +197,31 @@ input SaltedgeAccountUpdateInput {
   balance: Float
 }
 
+input SaltedgeAccountUpdateManyDataInput {
+  accountId: String
+  balance: Float
+}
+
 input SaltedgeAccountUpdateManyInput {
   create: [SaltedgeAccountCreateInput!]
   update: [SaltedgeAccountUpdateWithWhereUniqueNestedInput!]
   upsert: [SaltedgeAccountUpsertWithWhereUniqueNestedInput!]
   delete: [SaltedgeAccountWhereUniqueInput!]
   connect: [SaltedgeAccountWhereUniqueInput!]
+  set: [SaltedgeAccountWhereUniqueInput!]
   disconnect: [SaltedgeAccountWhereUniqueInput!]
+  deleteMany: [SaltedgeAccountScalarWhereInput!]
+  updateMany: [SaltedgeAccountUpdateManyWithWhereNestedInput!]
+}
+
+input SaltedgeAccountUpdateManyMutationInput {
+  accountId: String
+  balance: Float
+}
+
+input SaltedgeAccountUpdateManyWithWhereNestedInput {
+  where: SaltedgeAccountScalarWhereInput!
+  data: SaltedgeAccountUpdateManyDataInput!
 }
 
 input SaltedgeAccountUpdateWithWhereUniqueNestedInput {
@@ -306,6 +366,10 @@ input SaltedgeCustomerUpdateInput {
   logins: SaltedgeLoginUpdateManyWithoutSaltedgeCustomerInput
 }
 
+input SaltedgeCustomerUpdateManyMutationInput {
+  customerId: String
+}
+
 input SaltedgeCustomerUpdateOneRequiredWithoutLoginsInput {
   create: SaltedgeCustomerCreateWithoutLoginsInput
   update: SaltedgeCustomerUpdateWithoutLoginsDataInput
@@ -441,6 +505,54 @@ type SaltedgeLoginPreviousValues {
   provider: String!
 }
 
+input SaltedgeLoginScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  loginId: String
+  loginId_not: String
+  loginId_in: [String!]
+  loginId_not_in: [String!]
+  loginId_lt: String
+  loginId_lte: String
+  loginId_gt: String
+  loginId_gte: String
+  loginId_contains: String
+  loginId_not_contains: String
+  loginId_starts_with: String
+  loginId_not_starts_with: String
+  loginId_ends_with: String
+  loginId_not_ends_with: String
+  provider: String
+  provider_not: String
+  provider_in: [String!]
+  provider_not_in: [String!]
+  provider_lt: String
+  provider_lte: String
+  provider_gt: String
+  provider_gte: String
+  provider_contains: String
+  provider_not_contains: String
+  provider_starts_with: String
+  provider_not_starts_with: String
+  provider_ends_with: String
+  provider_not_ends_with: String
+  AND: [SaltedgeLoginScalarWhereInput!]
+  OR: [SaltedgeLoginScalarWhereInput!]
+  NOT: [SaltedgeLoginScalarWhereInput!]
+}
+
 type SaltedgeLoginSubscriptionPayload {
   mutation: MutationType!
   node: SaltedgeLogin
@@ -466,13 +578,31 @@ input SaltedgeLoginUpdateInput {
   accounts: SaltedgeAccountUpdateManyInput
 }
 
+input SaltedgeLoginUpdateManyDataInput {
+  loginId: String
+  provider: String
+}
+
+input SaltedgeLoginUpdateManyMutationInput {
+  loginId: String
+  provider: String
+}
+
 input SaltedgeLoginUpdateManyWithoutSaltedgeCustomerInput {
   create: [SaltedgeLoginCreateWithoutSaltedgeCustomerInput!]
   delete: [SaltedgeLoginWhereUniqueInput!]
   connect: [SaltedgeLoginWhereUniqueInput!]
+  set: [SaltedgeLoginWhereUniqueInput!]
   disconnect: [SaltedgeLoginWhereUniqueInput!]
   update: [SaltedgeLoginUpdateWithWhereUniqueWithoutSaltedgeCustomerInput!]
   upsert: [SaltedgeLoginUpsertWithWhereUniqueWithoutSaltedgeCustomerInput!]
+  deleteMany: [SaltedgeLoginScalarWhereInput!]
+  updateMany: [SaltedgeLoginUpdateManyWithWhereNestedInput!]
+}
+
+input SaltedgeLoginUpdateManyWithWhereNestedInput {
+  where: SaltedgeLoginScalarWhereInput!
+  data: SaltedgeLoginUpdateManyDataInput!
 }
 
 input SaltedgeLoginUpdateWithoutSaltedgeCustomerDataInput {
@@ -624,6 +754,10 @@ input UserSubscriptionWhereInput {
 input UserUpdateInput {
   psid: String
   saltedgeCustomer: SaltedgeCustomerUpdateOneWithoutUserInput
+}
+
+input UserUpdateManyMutationInput {
+  psid: String
 }
 
 input UserUpdateOneRequiredWithoutSaltedgeCustomerInput {
