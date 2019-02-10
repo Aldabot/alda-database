@@ -1,4 +1,4 @@
-
+const SDL = `
 type Query {
   getUser(psid: String!): User
   getSaltedgeLoginStatus(loginId: String!): String
@@ -42,3 +42,6 @@ type SaltedgeAccount {
   accountId: String!
   balance: Float
 }
+`
+
+module.exports = SDL

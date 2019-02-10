@@ -1,6 +1,7 @@
 const { prisma } = require('./generated/prisma')
 const { GraphQLServerLambda } = require('graphql-yoga')
 const { createCustomer, createLogin, getLoginStatus } = require('alda-saltedge')
+const SDL = require('./SDL')
 
 const resolvers = {
   Query: {
@@ -58,6 +59,7 @@ const lambda = new GraphQLServerLambda({
   }
 })
 
+exports.SDL = SDL
 exports.resolvers = resolvers
+
 exports.server = lambda.graphqlHandler
-exports.playground = lambda.playgroundHandler

@@ -1,6 +1,6 @@
 # How to add a GraphQL Query/Mutation
 We are using *GraphQL-Yoga* between the frontend and the Prisma-server. GraphQL-Yoga needs a **Schema Definition Language** (SDL) and the corresponding resolvers. Therefore to add a query/ mutation we have to:
-- add query/ mutation to SDL in `./schema.js`
+- add query/ mutation to SDL in `./SDL.js`
 - add resolver to `./index.js`, make sure that the function returns the values defined in the SDL
 
 # Test
@@ -11,7 +11,6 @@ Note: The *GraphQLServerLambda* from *graphql-yoga* does not support the playgro
 
 # Publish
 - `yarn publish` enter new version number and npm credentials. Remember to update `alda-backup` repository.
-- **IMPORTANT** copy `./schema.graphql` into *alda-backend* repository
 
 
 # Dependencies
