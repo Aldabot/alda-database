@@ -5,8 +5,7 @@ We are using *GraphQL-Yoga* between the frontend and the Prisma-server. GraphQL-
 
 # Test
 In `./test` I prepared a node application, which exposes the graphql-server and the **playground** at port **4001**. To start the offline serverless test server execute:
-- `cd ./test`
-- `node ./index.js`
+- `cd ./test && yarn start`
 Then open a browser at [http://localhost:4001] to make tests in the playground.
 Note: The *GraphQLServerLambda* from *graphql-yoga* does not support the playground at the moment (I could not get it running, even though I still export it). (10.02.2018)
 
