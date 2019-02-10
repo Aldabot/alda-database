@@ -13,10 +13,8 @@ const resolvers = {
       return status
     },
     hasValidSaltedgeLogin: async (root, args, ctx) => {
-      ctx.prisma.user({ psid: args.psid }).saltedgeCustomer()
-        .then(res => console.log(res))
-        .catch(err => console.error(err))
-      return true
+      const logins = await ctx.prisma.user({ psid: args.psid }).saltedgeCustomer().logins()
+      return logins.length > 0
     }
   },
   Mutation: {

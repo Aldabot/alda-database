@@ -1,4 +1,3 @@
-
 type Query {
   getUser(psid: String!): User
   getSaltedgeLoginStatus(loginId: String!): String
