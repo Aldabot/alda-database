@@ -52,7 +52,7 @@ const resolvers = {
 }
 
 const lambda = new GraphQLServerLambda({
-  typeDefs: './schema.graphql',
+  typeDefs: SDL,
   resolvers,
   context: {
     prisma
