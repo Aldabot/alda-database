@@ -12,6 +12,18 @@ Note: The *GraphQLServerLambda* from *graphql-yoga* does not support the playgro
 # Publish
 - `yarn publish` enter new version number and npm credentials. Remember to update `alda-backup` repository.
 
+## AWS Lightsail
+- start 1024MB RAM, Ubuntu 16.04 instance
+- install docker and docker-compose
+- `git clone https://github.com/aldabot/alda-graphql-server`
+- `cd ./alda-graphql-server/docker`
+- `sudo docker-compose up`
+- attach a fixed IP to the AWS Lightsail instance
+- open port 3306 (MySQL) and 4466 (Prisma) in the AWS Lightsail Network menu
+Now we have to deploy the schema from our **local computer** (not from the AWS Lightsail instance)
+- in the same repository go to `cd ./database`
+- change the prisma endpoint to `http://{AWSLightsailStaticIp}:4466`
+- `prisma deploy`
 
 # Dependencies
 This is the source code of the npm package **alda-graphql-server**. The following repositories depend on it
