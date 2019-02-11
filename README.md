@@ -11,6 +11,7 @@ Note: The *GraphQLServerLambda* from *graphql-yoga* does not support the playgro
 
 # Publish
 - `yarn publish` enter new version number and npm credentials. Remember to update `alda-backup` repository.
+- add **PRISMA_ENDPOINT** to `.env` e.g. `PRISMA_ENDPOINT=http://52.210.29.65:4466`
 
 ## AWS Lightsail
 - start 1024MB RAM, Ubuntu 16.04 instance

@@ -1,4 +1,5 @@
 "use strict";
+require('dotenv').config()
 Object.defineProperty(exports, "__esModule", { value: true });
 var prisma_lib_1 = require("prisma-client-lib");
 var typeDefs = require("./prisma-schema").typeDefs;
@@ -24,6 +25,6 @@ var models = [
 exports.Prisma = prisma_lib_1.makePrismaClientClass({
   typeDefs,
   models,
-  endpoint: `http://52.210.29.65:4466`
+  endpoint: process.env.PRISMA_ENDPOINT
 });
 exports.prisma = new exports.Prisma();
