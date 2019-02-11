@@ -1,3 +1,7 @@
+# Setup
+`yarn add alda-graphql-server`
+add **PRISMA_ENDPOINT** to `.env` file e.g. `PRISMA_ENDPOINT=http://52.210.29.65:4466`
+
 # How to add a GraphQL Query/Mutation
 We are using *GraphQL-Yoga* between the frontend and the Prisma-server. GraphQL-Yoga needs a **Schema Definition Language** (SDL) and the corresponding resolvers. Therefore to add a query/ mutation we have to:
 - add query/ mutation to SDL in `./SDL.js`
@@ -11,7 +15,6 @@ Note: The *GraphQLServerLambda* from *graphql-yoga* does not support the playgro
 
 # Publish
 - `yarn publish` enter new version number and npm credentials. Remember to update `alda-backup` repository.
-- add **PRISMA_ENDPOINT** to `.env` e.g. `PRISMA_ENDPOINT=http://52.210.29.65:4466`
 
 ## AWS Lightsail
 - start 1024MB RAM, Ubuntu 16.04 instance
