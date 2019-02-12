@@ -15,7 +15,8 @@ const resolvers = {
     },
     hasValidSaltedgeLogin: async (root, args, ctx) => {
       const logins = await ctx.prisma.user({ psid: args.psid }).saltedgeCustomer().logins()
-      return logins && logins.length > 0
+      if(logins === null) return false
+      return logins.length > 0
     }
   },
   Mutation: {
@@ -31,7 +32,7 @@ const resolvers = {
             customerId: id,
             user: { connect: { psid: args.psid }}
           })
-        })
+        }).catch(err => console.error('Could not create Saltedge customer', err))
     },
     createSaltedgeLogin(root, args, ctx) {
       let customerId_ = null
@@ -63,3 +64,10 @@ exports.SDL = SDL
 exports.resolvers = resolvers
 
 exports.server = lambda.graphqlHandler
+// exports.server = function(event, context, callback)  {
+//   const callbackFilter = function(error, output) {
+//     output.headers['Access-Control-Allow-Origin'] = '*';
+//     callback(error, output);
+//   };
+//   lambda.se(event, context, callbackFilter);
+// };
