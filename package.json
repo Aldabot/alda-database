@@ -8,5 +8,5 @@
     "alda-saltedge": "^1.0.3",
     "graphql-yoga": "^1.17.4",
     "prisma-client-lib": "^1.18.0"
-  }
+  },
 }
