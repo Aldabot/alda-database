@@ -40,6 +40,7 @@ const resolvers = {
       return ctx.prisma.user({ psid: args.psid }).saltedgeCustomer()
         .then(({ customerId }) => {
           customerId_ = customerId
+          console.log('customerId', customerId)
           return createLogin(customerId, args.username, args.password, args.provider)
         }).then(({ id, ...rest }) => {
           return ctx.prisma.createSaltedgeLogin({
@@ -47,7 +48,7 @@ const resolvers = {
             provider: args.provider,
             saltedgeCustomer: { connect: { customerId: customerId_ }}
           })
-        }).catch(err => console.error(err))
+        }).catch(err => console.error('Could not create Saltedge Login', err))
     }
   },
 }
@@ -64,10 +65,3 @@ exports.SDL = SDL
 exports.resolvers = resolvers
 
 exports.server = lambda.graphqlHandler
-// exports.server = function(event, context, callback)  {
-//   const callbackFilter = function(error, output) {
-//     output.headers['Access-Control-Allow-Origin'] = '*';
-//     callback(error, output);
-//   };
-//   lambda.se(event, context, callbackFilter);
-// };
