@@ -1,11 +1,11 @@
 {
   "name": "alda-graphql-server",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "main": "index.js",
   "author": "Dirk Hornung<dirkhornung91@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "alda-saltedge": "../alda-saltedge",
+    "alda-saltedge": "^1.0.5",
     "graphql-yoga": "^1.17.4",
     "prisma-client-lib": "^1.18.0"
   }
