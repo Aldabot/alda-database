@@ -10,7 +10,6 @@ const resolvers = {
     },
     getSaltedgeLoginStatus: async (root, args, ctx) => {
       const status = await getLoginStatus(args.loginId)
-      console.log(status)
       return status
     },
     hasValidSaltedgeLogin: async (root, args, ctx) => {
@@ -40,7 +39,6 @@ const resolvers = {
       return ctx.prisma.user({ psid: args.psid }).saltedgeCustomer()
         .then(({ customerId }) => {
           customerId_ = customerId
-          console.log('customerId', customerId)
           return createLogin(customerId, args.username, args.password, args.provider)
         }).then(({ id, ...rest }) => {
           return ctx.prisma.createSaltedgeLogin({
