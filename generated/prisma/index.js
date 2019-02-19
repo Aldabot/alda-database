@@ -21,6 +21,10 @@ var models = [
     embedded: false
   }
 ];
+
+if(!process.env.PRISMA_ENDPOINT)
+  throw new Error('Missing environment variable: PRISMA_ENDPOINT')
+
 exports.Prisma = prisma_lib_1.makePrismaClientClass({
   typeDefs,
   models,

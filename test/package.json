@@ -7,6 +7,6 @@
     "nodemon": "^1.18.10"
   },
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "export $(xargs <.env) && nodemon index.js"
   }
 }
